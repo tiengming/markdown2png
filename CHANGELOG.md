@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2026-07-12
+- Rebranded the platform to **墨韵飞鸢🪁** (MoYun FeiYuan / Ink Charm Flying Kite), reflecting the new paper-plane logo asset.
+- Replaced the branding across the entire site including index.html, routing, Header, FooterNav, and meta tags.
+- Configured secondary developer links to the user's custom URLs (`https://md2view.buxiantang.top/`, `https://markdown.buxiantang.top/`, `https://blog.buxiantang.top/`).
+- Introduced highly-demanded customizable watermark prefixes, allowing custom brand prefix strings combined with the locked attribution "via tiengming".
+- Solved setting-toggle performance lag and canvas re-draw jitter inside Home.vue by completely decoupling preview generation from settings toggle handlers (snapshotting now runs exclusively on-demand during downloading or copying).
+- Redesigned the About Us descriptions to outline correct nicejade attribution and showcase the robust secondary features.
+
 ## 2026-07-11
 - Redesigned the overall web layout to a responsive, collapsible Notion-style layout featuring a left sidebar on desktop and an off-canvas drawer on mobile.
 - Added a beautiful Notion-inspired card-style theme (`notion`), featuring a white document on an off-white background with a Peach emoji header, and set it as the default theme.

@@ -4,6 +4,8 @@ export const HAVE_DATE = 'is-with-date'
 
 export const HAVE_WATERMARK = 'is-with-watermark'
 
+export const WATERMARK_PREFIX = 'watermark-prefix'
+
 export const CURRENT_THEME = 'current-theme'
 
 export const CURRENT_SIZE = 'current-size'
@@ -83,7 +85,7 @@ export const THEME_ARR = [
 	{ name: '薄荷', id: 'mint' },
 	{ name: '日落', id: 'sunset' },
 	{ name: '紫霞', id: 'purple' },
-	{ name: '极简', id: 'minimal' },
+	{ name: '极极简', id: 'minimal' },
 	{ name: '科技', id: 'tech' },
 ]
 
@@ -110,18 +112,18 @@ export const SIZES_ARR = [
 	},
 ]
 
-export const DEFAULT_TEXT = `[玉桃文飨轩](https://share.lovejade.cn/)🍑 ，专业的文本转图片工具。一键将 Markdown 转换为精美图片，支持书摘模式、自定义主题、字体 and 背景。所有数据本地处理保障隐私安全，完美适配多端展示。让文章分享、读书笔记、社交传播更有格调。 基于 Vue3、Vite、Pinia、TailwindCSS、TypeScript 等技术栈构建。
+export const DEFAULT_TEXT = `[墨韵飞鸢](https://blog.buxiantang.top/)  Kite，专业的文本转图片工具。一键将 Markdown 转换为精美图片，支持书摘模式、自定义主题、字体 and 背景。由 **tiengming** 在开源项目「玉桃文飨轩」基础上二次开发，增加了 Notion 极简主题、Notion 工作区双栏布局、数据库属性式控制面板、自定义水印内容等多项全新特性。所有数据均在浏览器本地处理，完全保障您的隐私安全。
 
 ## 如何使用？
 
-在 Foucs 状态，输入您的内容（支持 \`Markdown\` 格式）；在 Blur 状态，查看预览效果；点击「保存图片」，即可将内容生成图片并下载至本地。
+在输入区域，直接输入或粘贴您的内容（支持完整的 \`Markdown\` 格式及富文本）；在非编辑状态下，即可实时查看精美的排版预览；点击下方的「复制图片」或「保存图片」，即可一键导出高清图。
 
 ## 核心功能
 
-- ✨ 一键将文本内容转换为高清图片，支持 Markdown 语法渲染；
-- 🔒 所有数据本地处理，无需上传服务器，确保内容安全与隐私；
-- 📱 灵活调整输出尺寸，完美适配手机、平板、电脑等多种设备；
-- ⚡️ 一键复制图片至剪切板或下载图片，即时分享到各大社交平台；
+- ✨ **一键转换**：快速将文字渲染为排版考究、美观大方的高清图片；
+- 📝 **Notion 体验**：全站适配 Notion 工作区极简侧边栏布局，配备完美的 Notion Card 主题；
+- 🏷️ **自定义水印**：支持由用户自由配置个性化品牌前缀，并携手 "via tiengming" 进行品质分享；
+- ⚡ **性能优化**：对高频配置切换时的卡顿和页面抖动进行了全面深度重构，带来丝滑顺畅的编辑体验；
 `
 
 export const STYLE_STORAGE_KEY = 'digest-style-settings'

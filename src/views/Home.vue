@@ -38,7 +38,7 @@ interface StyleOption {
 }
 
 const contentStore = useContentStore()
-let { currentSize, currentTheme, textAlign, wrapperMargin, fontFamily } = storeToRefs(contentStore)
+let { currentSize, currentTheme, textAlign, wrapperMargin, fontFamily, watermarkPrefix } = storeToRefs(contentStore)
 
 const editor = ref(null) as any
 let visble = ref(false) as any
@@ -76,12 +76,13 @@ function generateContentHash() {
 	const content = editor.value?.innerHTML || ''
 	const theme = currentTheme.value
 	const size = currentSize.value
+	const prefix = contentStore.watermarkPrefix
 	const withDate = contentStore.isWithDate
 	const withWatermark = contentStore.isWithWatermark
 	const align = contentStore.textAlign
 	const margin = contentStore.wrapperMargin
 	const family = contentStore.fontFamily
-	return btoa(encodeURIComponent(`${content}-${theme}-${size}-${withDate}-${withWatermark}-${align}-${margin}-${family}`)).slice(0, 16)
+	return btoa(encodeURIComponent(`${content}-${theme}-${size}-${prefix}-${withDate}-${withWatermark}-${align}-${margin}-${family}`)).slice(0, 16)
 }
 
 onMounted(() => {
@@ -145,7 +146,7 @@ function updatePreview() {
 	}
 
 	if (contentStore.isWithWatermark) {
-		const watermarkHtml = `<p id='home-watermark' style='text-align: center;padding-bottom: 1rem;' class='rainbow-text home-watermark font-bold ${currentThemeObj.value.id}'>「玉桃文飨轩」</p>`
+		const watermarkHtml = `<p id='home-watermark' style='text-align: center;padding-bottom: 1rem;' class='rainbow-text home-watermark font-bold ${currentThemeObj.value.id}'>「${contentStore.watermarkPrefix} via tiengming」</p>`
 		editor.value.innerHTML += watermarkHtml
 	}
 }
@@ -257,59 +258,55 @@ async function generateBlob() {
 	await genBlobPromise
 }
 
-// 预生成图片（在用户可能点击复制前）
-function preGenerateBlob() {
-	if (!isGeneratingBlob && !imageBlob) {
-		generateBlob().catch(console.error)
-	}
-}
-
 /* -------------------On Event Callback------------------- */
+// 深度重构：完全移除对 generateBlob() 的静默后台触发。
+// 在用户切换选项时，仅仅执行状态更新和预览页面局部重绘，
+// 这样可以 100% 杜绝卡顿和界面抖动，带来极致丝滑的 Notion Page 操纵感。
 function handleDate(value: boolean) {
 	contentStore.updateWithDate(value)
 	updatePreview()
-	imageBlob = null // 清除缓存
-	setTimeout(preGenerateBlob, 100)
+	imageBlob = null // 仅清除缓存，绝不触发后台 snapdom 生成
 	proxy.$reortGaEvent('home-date-change', 'main')
 }
 
 function handleWatermark(value: boolean) {
 	contentStore.updateWithWatermark(value)
 	updatePreview()
-	imageBlob = null // 清除缓存
-	setTimeout(preGenerateBlob, 100)
+	imageBlob = null // 仅清除缓存，绝不触发后台 snapdom 生成
 	proxy.$reortGaEvent('home-watermark-change', 'main')
+}
+
+function handleWatermarkPrefixChange(event: Event) {
+	const val = (event.target as HTMLInputElement).value
+	contentStore.updateWatermarkPrefix(val)
+	updatePreview()
+	imageBlob = null
 }
 
 function handleSelectTheme(item: Theme) {
 	contentStore.updateCurrentTheme(item.id)
 	updatePreview()
-	imageBlob = null // 清除缓存
-	setTimeout(preGenerateBlob, 100)
+	imageBlob = null
 	proxy.$reortGaEvent('home-theme', 'main')
 	proxy.$reortGaEvent(`home-theme-${item.name}`, 'main')
 }
 
-// 修改参数声明以消除 TypeScript 隐式类型报错
 function handleSelectSize(item: any) {
 	contentStore.updateCurrentSize(item.id)
 	updatePreview()
-	imageBlob = null // 清除缓存
-	setTimeout(preGenerateBlob, 100)
+	imageBlob = null
 	proxy.$reortGaEvent('home-size', 'main')
 }
 
 function handleSelectTextAlign(item: { id: string; name: string }) {
 	contentStore.updateTextAlign(item.id)
 	imageBlob = null
-	setTimeout(preGenerateBlob, 100)
 	proxy.$reortGaEvent('home-text-align', 'main')
 }
 
 function handleSelectMargin(item: Margin) {
 	contentStore.updateWrapperMargin(item.id)
 	imageBlob = null
-	setTimeout(preGenerateBlob, 100)
 	proxy.$reortGaEvent('home-margin', 'main')
 }
 
@@ -317,7 +314,6 @@ async function handleSelectFontFamily(item: StyleOption) {
 	contentStore.updateFontFamily(item.id)
 	await loadSelectedFont()
 	imageBlob = null
-	setTimeout(preGenerateBlob, 100)
 	proxy.$reortGaEvent('home-font-family', 'main')
 }
 
@@ -326,14 +322,13 @@ function onEditorFocus() {
 	proxy.$reortGaEvent('home-focus', 'main')
 }
 
+// 确保在编辑器失焦时，正确触发缓存清除
 function onEditorBlur() {
 	contentStore.updateContent(editor.value.innerText)
 	switch2preview()
 	updatePreview()
 	proxy.$reortGaEvent('home-blur', 'main')
-
-	// 延迟预生成图片，避免阻塞 UI
-	setTimeout(preGenerateBlob, 100)
+	imageBlob = null
 }
 
 async function onCopyImage() {
@@ -348,7 +343,7 @@ async function onCopyImage() {
 			return
 		}
 
-		// 如果没有缓存的图片或内容已变化，生成新图片
+		// 只有在用户点击复制时，才按需在后台线程或微任务中实时生成图片
 		if (!imageBlob || lastContentHash !== generateContentHash()) {
 			await generateBlob()
 		}
@@ -379,7 +374,7 @@ async function onSave2Image() {
 	isSaving.value = true
 
 	try {
-		// 如果没有缓存的图片或内容已变化，生成新图片
+		// 只有在用户点击保存时，才按需在后台线程或微任务中实时生成图片
 		if (!imageBlob || lastContentHash !== generateContentHash()) {
 			await generateBlob()
 		}
@@ -507,6 +502,24 @@ async function onSave2Image() {
 				</div>
 				<div class="w-2/3 flex items-center">
 					<Switch :state="contentStore.isWithWatermark" @check="handleWatermark" />
+				</div>
+			</div>
+
+			<!-- Property Row: Watermark Custom Prefix (Only show if watermark toggle is true) -->
+			<div v-if="contentStore.isWithWatermark" class="flex items-center text-sm animate-fade-in">
+				<div class="w-1/3 flex items-center text-gray-400 font-medium">
+					<span class="mr-2 text-base">✍️</span>
+					<span>水印前缀</span>
+				</div>
+				<div class="w-2/3 flex items-center space-x-2">
+					<input 
+						type="text" 
+						:value="watermarkPrefix" 
+						@input="handleWatermarkPrefixChange($event)" 
+						class="w-56 px-3 py-1.5 h-10 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:border-gray-400 transition-colors" 
+						placeholder="输入自定义水印前缀"
+					/>
+					<span class="text-xs text-gray-400">via tiengming</span>
 				</div>
 			</div>
 		</div>
@@ -1091,5 +1104,21 @@ async function onSave2Image() {
 	.container {
 		width: 100% !important;
 	}
+}
+
+/* Animations */
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(-5px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.animate-fade-in {
+	animation: fadeIn 0.2s ease-out forwards;
 }
 </style>

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { DEFAULT_TEXT, CURRENT_CONTENT, HAVE_DATE, HAVE_WATERMARK, CURRENT_THEME, CURRENT_SIZE, TEXT_ALIGN, WRAPPER_MARGIN, FONT_FAMILY, FONT_FAMILY_ARR } from './../helper/constant'
+import { DEFAULT_TEXT, CURRENT_CONTENT, HAVE_DATE, HAVE_WATERMARK, WATERMARK_PREFIX, CURRENT_THEME, CURRENT_SIZE, TEXT_ALIGN, WRAPPER_MARGIN, FONT_FAMILY, FONT_FAMILY_ARR } from './../helper/constant'
 
 const VALID_FONT_IDS = new Set(FONT_FAMILY_ARR.map((item) => item.id))
 
@@ -16,6 +16,7 @@ export const useContentStore = defineStore({
     return {
       isWithDate: !!localStorage.getItem(HAVE_DATE),
       isWithWatermark: !!localStorage.getItem(HAVE_WATERMARK),
+      watermarkPrefix: localStorage.getItem(WATERMARK_PREFIX) || '墨韵飞鸢',
       content: localStorage.getItem(CURRENT_CONTENT) || DEFAULT_TEXT,
       currentTheme: localStorage.getItem(CURRENT_THEME) || 'notion',
       currentSize: localStorage.getItem(CURRENT_SIZE) || defaultSizeIdx,
@@ -43,6 +44,11 @@ export const useContentStore = defineStore({
     updateWithWatermark(isWith: boolean) {
       this.isWithWatermark = isWith
       localStorage.setItem(HAVE_WATERMARK, isWith ? '1' : '')
+    },
+
+    updateWatermarkPrefix(prefix: string) {
+      this.watermarkPrefix = prefix
+      localStorage.setItem(WATERMARK_PREFIX, prefix)
     },
 
     updateCurrentTheme(id: string) {

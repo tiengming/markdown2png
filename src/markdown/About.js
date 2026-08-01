@@ -1,42 +1,27 @@
 export default `
-[玉桃文飨轩🍑](https://share.lovejade.cn/?utm_source=about)，专业的文本转图片工具。一键将 [Markdown](https://site.lovejade.cn/tags/Markdown) 转换为精美图片，支持书摘模式、自定义主题、字体和背景。所有数据本地处理保障隐私安全，完美适配多端展示。让文章分享、读书笔记、社交传播更有格调。项目基于 [Vue3](https://site.lovejade.cn/post/5b1a221c0526c920d6dfaada) 、 [Vite](https://site.lovejade.cn/post/6010e1b10c71de1fb957b64e) 、 [Pinia](https://site.lovejade.cn/post/631813c3c0922e0e572bde81) 、 [TailwindCSS](https://site.lovejade.cn/post/5fd20cb4c06d6302c1907ec7) 、 [TypeScript](https://site.lovejade.cn/post/6278fdeaac00ce3f9b11a8ef) 等技术栈构建，并在 [Github 开源](https://github.com/nicejade/markdown2png)。
+[墨韵飞鸢🪁](https://blog.buxiantang.top/)，是一款专业的文本转图片与精美卡片分享工具。项目由 **tiengming** 进行二次开发与深度定制，复刻并致敬了优秀的开源项目 [markdown2png](https://github.com/nicejade/markdown2png)。在保留原作优秀排版特性的基础上，我们移除了原上游繁杂的商业推广，重塑了极具质感的设计，并带来多项专为创作者、阅读爱好者量身定制的现代化功能。
 
-![玉桃文飨轩 | 应用桌面端截图](https://share.lovejade.cn/screenshots/desktop.png)
+![墨韵飞鸢 | 二次开发全新界面](https://pick.buxiantang.top/rest/plane-solid-full.svg)
 
-## 诞生初衷
+## 二次开发全新特性
 
-有搭建蛮多社区，诸如基于 \`Flarum\` 所搭建 [悠然宜想亭](https://forum.lovejade.cn/) ，虽然挺好用，但对于表格等 Markdown 语法，使用 Markdown 并不能得到预期解析；这就需要将内容转成图片，有尝试些工具，效果并不是很理想；于是最佳办法就是自己写一个。那时  Vue3、Vite、Pinia、TailwindCSS、TypeScript 等技术栈较火，也想着切实体验下。于是乎，便有了这个项目。
+为了追求极致的使用体验与审美细节，**tiengming** 进行了以下深度二次开发与改造：
 
-## 核心功能
-
-- ✨ 一键将文本内容转换为高清图片，支持 Markdown 语法渲染；
-- 📅 支持添加日期水印，让分享内容更专业、更有时效性；
-- 🔒 所有数据本地处理，无需上传服务器，确保内容安全与隐私；
-- 🎨 内置多款精美主题与字体，支持自由切换，让内容展示更有格调；
-- 📱 灵活调整输出尺寸，完美适配手机、平板、电脑等多种设备；
-- 💫 支持自定义背景、字体、颜色等，打造专属于您的分享样式；
-- 📚 特色功能：[真实感书摘模式](https://share.lovejade.cn/digest)，让读书笔记分享更有质感；
-- ⚡️ 一键复制图片至剪切板或下载图片，即时分享到各大社交平台；
-
-> 无论是创作者分享文章、读者记录书摘，还是设计师输出文案，[玉桃文飨轩](https://share.lovejade.cn/)都能帮您轻松将文字转化为精美图片。
+- 📝 **Notion 极简工作区布局**：整站全新重构为 Notion 风格，配备了 collapsible（可折叠）的精美左侧菜单栏，支持一键隐去、开启“禅意专注写作模式”；
+- 🎨 **专属 Notion 极简卡片主题**：新增了还原度极高的 \`Notion 极简\` 主题，淡雅的背景色加上极具质感的卡片白，配合顶端桃子图标，尽显文艺与格调；
+- 🏷️ **精细的数据库属性面板**：首页控制项全部升级为 Notion 数据库风格的“页面属性列表”（Property List）堆叠布局，属性操作更具条理与直观性；
+- ✍️ **完全自定义的个性化水印**：支持由用户自由输入水印的“品牌前缀”，搭配后缀 "via tiengming"，将个性化名片和版权宣言融入每一次优雅的图片分享中；
+- ⚡ **无卡顿、零抖动的性能重构**：深度重构了 canvas 底层快照渲染机制，将原先每次切换选项都会触发高频 snapdom 测算导致的浏览器主线程卡顿、界面抖动彻底消除，实现了 100% 顺畅丝滑的零延迟选项切换，仅在您需要下载/复制时才会按需生成 snapshot。
 
 ## 适用场景
 
-您有一段文本（富文本或 **Markdown** ），如果想快速将其转换成图片，以便在社交平台、朋友圈、博客、或者 PPT 文稿分享，那么 [玉桃文飨轩](https://share.lovejade.cn/?utm_source=about) 可为您提供帮助。
+如果您有一段精彩段落、读书笔记或 **Markdown** 文本，想将其转化为高画质、具有排版美感的卡片图片，以便优雅地分享至微信朋友圈、微博、小红书、博客等社交媒体，[墨韵飞鸢](https://blog.buxiantang.top/) 将是您的绝佳伴侣。
 
-## 命名来源
+## 关于开源与二次开发版权
 
-早在 [关于“悠然宜想亭”的由来，以及未来](https://forum.lovejade.cn/d/1) 一文提及，对于网站取名多是五个字；或是兴趣的原因，其后缀带有 [亭台楼阁、轩榭廊舫，殿庭苑斋](https://forum.lovejade.cn/d/9) 其中一个；其中大部分已被使用，只好使用最喜欢的这个「轩」字。那时，佳人仍在，与之相处，一日三见「桃🍑」；独“桃”难以成词，择「玉」字以配之；至于「文飨」（飨与“享”通假），寄托这款工具可作为「分享文字」之用。时隔年余，更多功能竟未完善，一如那逝去的爱恋，惜哉，如此而已。
+本工具秉承开源精神。我们保留了对原项目作者 [nicejade](https://github.com/nicejade) 及其开源之作「玉桃文飨轩 / markdown2png」的诚挚感谢与来源标注。
 
-## 相关链接
+二次开发版本版权由 **tiengming** 保留，并在 [Github 开源](https://github.com/tiengming/markdown2png)。
 
-- [逍遥自在轩](https://www.niceshare.site/)
-- [清风明月轩](https://www.lovejade.cn/)
-- [晚晴幽草轩](https://www.jeffjade.com/nicelinks)
-- [缘知随心庭](https://fine.niceshare.site/)
-- [静轩之别苑](https://quickapp.lovejade.cn/)
-- [悠然宜想亭](https://forum.lovejade.cn/)
-- [SegmentFault](https://segmentfault.com/u/jeffjade)
-- [X（Twitter）](https://x.com/MarshalXuan)
-
-2023 年 11 月 27 日补录于〔深圳福田〕`
+2026 年 8 月，tiengming 匠心重置。
+`
