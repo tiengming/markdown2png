@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import { SITE_CONFIG } from '../helper/config'
 
-const baseUrl = 'https://share.lovejade.cn'
+const baseUrl = SITE_CONFIG.domain
 const defaultOgImage = `${baseUrl}/screenshots/desktop.png`
-const defaultImageAlt = '玉桃文飨轩 - Markdown 转图片工具界面预览'
+const defaultImageAlt = `${SITE_CONFIG.title} - Markdown 转图片工具界面预览`
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,9 +14,9 @@ const router = createRouter({
       name: 'home',
       component: Home,
       meta: {
-        title: '玉桃文飨轩 - 一键将文本转换为精美图片 | Markdown 转图片工具',
-        description: '玉桃文飨轩，专业的文本转图片工具。一键将 Markdown 转换为精美图片，支持书摘模式、自定义主题、字体和背景。所有数据本地处理保障隐私安全。',
-        keywords: '玉桃文飨轩,Markdown转图片,文本转图片工具,书摘生成器,文字转长图',
+        title: SITE_CONFIG.meta.home.title,
+        description: SITE_CONFIG.meta.home.description,
+        keywords: SITE_CONFIG.meta.home.keywords,
         canonical: `${baseUrl}/`,
         ogImage: defaultOgImage,
         ogImageAlt: defaultImageAlt,
@@ -28,12 +29,12 @@ const router = createRouter({
       name: 'digest',
       component: () => import('../views/Digest.vue'),
       meta: {
-        title: '书摘模式 - 玉桃文飨轩 | 精美书摘图片生成器',
-        description: '使用玉桃文飨轩的书摘模式，将您的读书笔记和精彩书摘转换为精美的分享图片。支持多种排版样式和背景选择。',
-        keywords: '书摘生成器,读书笔记工具,书摘转图片,文章配图工具',
+        title: SITE_CONFIG.meta.digest.title,
+        description: SITE_CONFIG.meta.digest.description,
+        keywords: SITE_CONFIG.meta.digest.keywords,
         canonical: `${baseUrl}/digest`,
         ogImage: defaultOgImage,
-        ogImageAlt: '玉桃文飨轩书摘模式 - 精美书摘图片生成器',
+        ogImageAlt: `${SITE_CONFIG.title}书摘模式 - 精美书摘图片生成器`,
         ogType: 'website',
         twitterCard: 'summary_large_image'
       }
@@ -43,12 +44,12 @@ const router = createRouter({
       name: 'about',
       component: () => import('../views/About.vue'),
       meta: {
-        title: '关于我们 - 玉桃文飨轩',
-        description: '了解玉桃文飨轩的功能特性、使用方法和技术实现。基于 Vue3、Vite、TailwindCSS 构建的现代化文本转图片工具。',
-        keywords: '关于玉桃文飨轩,工具介绍,使用说明',
+        title: SITE_CONFIG.meta.about.title,
+        description: SITE_CONFIG.meta.about.description,
+        keywords: SITE_CONFIG.meta.about.keywords,
         canonical: `${baseUrl}/about`,
         ogImage: defaultOgImage,
-        ogImageAlt: '玉桃文飨轩 - 产品介绍与使用说明',
+        ogImageAlt: `${SITE_CONFIG.title} - 产品介绍与使用说明`,
         ogType: 'website',
         twitterCard: 'summary_large_image'
       }

@@ -129,7 +129,15 @@ function updatePreview() {
 	const watermarkDomNode = document.getElementById('home-watermark')
 	if (watermarkDomNode) watermarkDomNode.remove()
 
+	const notionHeaderNode = document.getElementById('notion-header')
+	if (notionHeaderNode) notionHeaderNode.remove()
+
 	if (!editor.value.innerHTML) return
+
+	if (currentTheme.value === 'notion') {
+		const headerHtml = `<div id='notion-header' style='font-size: 4rem; margin-bottom: 1.5rem; text-align: left; line-height: 1;' class='exclude-from-image select-none'>🍑</div>`
+		editor.value.innerHTML = headerHtml + editor.value.innerHTML
+	}
 
 	if (contentStore.isWithDate) {
 		const dateHtml = `<p id='date-time' style='text-align: right;'><time>${getCurrentDate()}</time></p>`
@@ -222,7 +230,7 @@ async function generateBlob() {
 			container.style.transform = 'translateZ(0)' // 启用硬件加速
 			editorEl.contentEditable = 'false'
 
-			// 强制重排和重绘
+			// 强制重排 and 重绘
 			container.offsetHeight
 
 			// 使用 snapdom 生成图片
@@ -282,7 +290,8 @@ function handleSelectTheme(item: Theme) {
 	proxy.$reortGaEvent(`home-theme-${item.name}`, 'main')
 }
 
-function handleSelectSize(item: Size) {
+// 修改参数声明以消除 TypeScript 隐式类型报错
+function handleSelectSize(item: any) {
 	contentStore.updateCurrentSize(item.id)
 	updatePreview()
 	imageBlob = null // 清除缓存
@@ -394,10 +403,10 @@ async function onSave2Image() {
 </script>
 
 <template>
-	<section class="flex justify-center w-full m-auto">
+	<!-- Main Preview Area -->
+	<section class="flex justify-center w-full max-w-4xl mx-auto mb-8">
 		<div id="container" class="container" style="text-autospace: normal;" :style="containerStyle">
 			<div :class="`${currentThemeObj.id}-box warpper`">
-				<!-- <div class="bg" v-if="currentThemeObj.id === 'official'"></div> -->
 				<div class="content" :class="currentThemeObj.id">
 					<div id="editor" ref="editor" @blur="onEditorBlur" @focus="onEditorFocus"
 						:class="['editor', 'markdown', { 'markdown--justify': textAlign === 'justify' }]"
@@ -408,67 +417,126 @@ async function onSave2Image() {
 		</div>
 	</section>
 
-	<div class="flex flex-col items-center w-full px-6 py-4 mx-auto mt-6 mb-4 space-y-2 bg-white rounded-md shadow-lg typography-area">
-		<div class="flex flex-row items-center justify-evenly w-full space-x-6" role="group">
-			<div class="flex flex-col items-center justify-between h-20">
-				<p class="font-medium text-gray-400">文本对齐</p>
-				<HeadlessSelect className="w-28" :sourceArr="TEXT_ALIGN_ARR" :defaultId="textAlign"
-					@selected="handleSelectTextAlign" />
+	<!-- Properties Area - Stylized as an authentic Notion Database Page Property List -->
+	<div class="w-full max-w-4xl bg-white border border-gray-100 rounded-xl p-6 mb-6">
+		<div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-6">
+			<h2 class="text-sm font-bold uppercase tracking-wider text-gray-400">页面属性设置</h2>
+			<div class="flex items-center space-x-2">
+				<span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+				<span class="text-xs text-gray-400">所有属性将自动应用</span>
 			</div>
-			<div class="flex flex-col items-center justify-between h-20">
-				<p class="font-medium text-gray-400">外边距</p>
-				<HeadlessSelect className="w-24" :sourceArr="MARGIN_ARR" :defaultId="wrapperMargin"
-					@selected="handleSelectMargin" />
+		</div>
+
+		<div class="space-y-4 max-w-2xl">
+			<!-- Property Row: Themes -->
+			<div class="flex items-center text-sm">
+				<div class="w-1/3 flex items-center text-gray-400 font-medium">
+					<span class="mr-2 text-base">🎨</span>
+					<span>渲染主题</span>
+				</div>
+				<div class="w-2/3 flex items-center">
+					<HeadlessSelect className="w-56" :sourceArr="THEME_ARR" :defaultId="currentTheme"
+						@selected="handleSelectTheme" />
+				</div>
 			</div>
-			<div class="flex flex-col items-center justify-between h-20">
-				<p class="font-medium text-gray-400">字体</p>
-				<HeadlessSelect className="w-28" :sourceArr="FONT_FAMILY_ARR" :defaultId="fontFamily"
-					@selected="handleSelectFontFamily" />
+
+			<!-- Property Row: Font Family -->
+			<div class="flex items-center text-sm">
+				<div class="w-1/3 flex items-center text-gray-400 font-medium">
+					<span class="mr-2 text-base">🔤</span>
+					<span>字体选择</span>
+				</div>
+				<div class="w-2/3 flex items-center">
+					<HeadlessSelect className="w-56" :sourceArr="FONT_FAMILY_ARR" :defaultId="fontFamily"
+						@selected="handleSelectFontFamily" />
+				</div>
+			</div>
+
+			<!-- Property Row: Text Align -->
+			<div class="flex items-center text-sm">
+				<div class="w-1/3 flex items-center text-gray-400 font-medium">
+					<span class="mr-2 text-base">↔️</span>
+					<span>对齐方式</span>
+				</div>
+				<div class="w-2/3 flex items-center">
+					<HeadlessSelect className="w-56" :sourceArr="TEXT_ALIGN_ARR" :defaultId="textAlign"
+						@selected="handleSelectTextAlign" />
+				</div>
+			</div>
+
+			<!-- Property Row: Padding Margin -->
+			<div class="flex items-center text-sm">
+				<div class="w-1/3 flex items-center text-gray-400 font-medium">
+					<span class="mr-2 text-base">📐</span>
+					<span>外边距</span>
+				</div>
+				<div class="w-2/3 flex items-center">
+					<HeadlessSelect className="w-56" :sourceArr="MARGIN_ARR" :defaultId="wrapperMargin"
+						@selected="handleSelectMargin" />
+				</div>
+			</div>
+
+			<!-- Property Row: Canvas Sizes -->
+			<div class="flex items-center text-sm">
+				<div class="w-1/3 flex items-center text-gray-400 font-medium">
+					<span class="mr-2 text-base">🖥️</span>
+					<span>画布尺寸</span>
+				</div>
+				<div class="w-2/3 flex items-center">
+					<HeadlessSelect className="w-56" :sourceArr="SIZES_ARR" :defaultId="currentSize"
+						@selected="handleSelectSize" />
+				</div>
+			</div>
+
+			<!-- Property Row: Date Tag -->
+			<div class="flex items-center text-sm">
+				<div class="w-1/3 flex items-center text-gray-400 font-medium">
+					<span class="mr-2 text-base">📅</span>
+					<span>日期水印</span>
+				</div>
+				<div class="w-2/3 flex items-center">
+					<Switch :state="contentStore.isWithDate" @check="handleDate" />
+				</div>
+			</div>
+
+			<!-- Property Row: Watermark -->
+			<div class="flex items-center text-sm">
+				<div class="w-1/3 flex items-center text-gray-400 font-medium">
+					<span class="mr-2 text-base">🏷️</span>
+					<span>品牌水印</span>
+				</div>
+				<div class="w-2/3 flex items-center">
+					<Switch :state="contentStore.isWithWatermark" @check="handleWatermark" />
+				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="flex flex-col items-center w-full px-6 py-4 mx-auto mb-4 space-y-2 bg-white rounded-md shadow-lg operate-area">
-		<div class="flex flex-wrap justify-between w-full space-x-6 item-center">
-			<div class="flex justify-between flex-auto mobile-adjust md:justify-evenly">
-				<div class="flex flex-col items-center justify-between h-20">
-					<p class="font-medium text-gray-400">选择主题</p>
-					<HeadlessSelect className="w-24" :sourceArr="THEME_ARR" :defaultId="currentTheme"
-						@selected="handleSelectTheme" />
-				</div>
-				<div class="flex flex-col items-center justify-between h-20 md:hidden">
-					<p class="font-medium text-gray-400">选择尺寸</p>
-					<HeadlessSelect className="w-28" :sourceArr="SIZES_ARR" :defaultId="currentSize"
-						@selected="handleSelectSize" />
-				</div>
-				<div class="flex flex-col items-center justify-between w-20 h-20">
-					<p class="font-medium text-gray-400">日期</p>
-					<Switch :state="contentStore.isWithDate" @check="handleDate" class="block"></Switch>
-				</div>
-			</div>
+	<!-- Action Controls Bar -->
+	<div class="w-full max-w-4xl bg-white border border-gray-100 rounded-xl p-4 flex md:flex-col justify-between items-center md:space-y-3 mb-8">
+		<div class="text-xs text-gray-400 font-medium">
+			💡 提示：在上方文本框内直接点击可直接进行富文本/Markdown编辑
 		</div>
-		<div class="flex flex-row items-center justify-between w-full px-0 py-4 space-x-6 md:justify-evenly md:space-x-0"
-			role="group">
-			<div class="flex flex-col items-center justify-between h-20">
-				<p class="font-medium text-gray-400">选择操作</p>
-				<button class="space-x-1 general-btn" :disabled="isCopying" @click="onCopyImage">
-					<Spinner v-if="isCopying" :size="20" />
-					<span>{{ isCopying ? '复制中...' : '复制图片' }}</span>
-				</button>
-			</div>
-			<div class="flex flex-col items-center justify-between h-20">
-				<p class="font-medium text-gray-400">选择操作</p>
-				<button class="space-x-1 general-btn" :disabled="isSaving" @click="onSave2Image">
-					<Spinner v-if="isSaving" :size="20" />
-					<span>{{ isSaving ? '保存中...' : '保存图片' }}</span>
-				</button>
-			</div>
-			<div class="flex flex-col items-center justify-between w-20 h-20 md:hidden">
-				<p class="font-medium text-gray-400">水印</p>				
-				<Switch :state="contentStore.isWithWatermark" @check="handleWatermark" class="block" />
-			</div>
+		<div class="flex space-x-3 md:w-full">
+			<button 
+				class="flex-1 min-w-[120px] inline-flex items-center justify-center space-x-2 px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-100 transition-colors" 
+				:disabled="isCopying" 
+				@click="onCopyImage"
+			>
+				<Spinner v-if="isCopying" :size="16" />
+				<span>{{ isCopying ? '复制中...' : '复制图片' }}</span>
+			</button>
+			<button 
+				class="flex-1 min-w-[120px] inline-flex items-center justify-center space-x-2 px-4 py-2 text-xs font-bold text-white bg-gray-900 border border-transparent rounded-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors" 
+				:disabled="isSaving" 
+				@click="onSave2Image"
+			>
+				<Spinner v-if="isSaving" :size="16" />
+				<span>{{ isSaving ? '保存中...' : '保存图片' }}</span>
+			</button>
 		</div>
 	</div>
+
 	<Recommand />
 </template>
 
@@ -498,6 +566,72 @@ async function onSave2Image() {
 			&:active {
 				border: none;
 				outline: none;
+			}
+		}
+	}
+}
+
+.notion-box {
+	background-color: #f1f1ef;
+
+	.notion {
+		background-color: #ffffff;
+		border: 1px solid rgba(15, 15, 15, 0.1);
+		border-radius: 8px;
+		box-shadow: 0 1px 3px rgba(15, 15, 15, 0.05);
+
+		.editor {
+			color: #37352f;
+			background-color: transparent;
+			font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+			
+			:deep(h1) {
+				font-size: 1.875rem;
+				font-weight: 700;
+				color: #37352f;
+				border-bottom: 1px solid rgba(55, 53, 47, 0.08);
+				padding-bottom: 0.3em;
+				margin-top: 1.5rem;
+				margin-bottom: 0.5rem;
+			}
+			:deep(h2) {
+				font-size: 1.5rem;
+				font-weight: 600;
+				color: #37352f;
+				margin-top: 1.4rem;
+				margin-bottom: 0.4rem;
+			}
+			:deep(h3) {
+				font-size: 1.25rem;
+				font-weight: 600;
+				color: #37352f;
+				margin-top: 1.2rem;
+				margin-bottom: 0.3rem;
+			}
+			:deep(p) {
+				margin-bottom: 0.75rem;
+				color: #37352f;
+				line-height: 1.625;
+			}
+			:deep(blockquote) {
+				border-left: 3px solid #37352f;
+				color: #37352f;
+				padding-left: 0.875rem;
+				margin-left: 0;
+				font-style: italic;
+			}
+			:deep(pre) {
+				background-color: #f7f7f5;
+				border-radius: 4px;
+				padding: 1rem;
+				border: 1px solid rgba(15, 15, 15, 0.05);
+			}
+			:deep(code) {
+				background-color: rgba(135, 131, 120, 0.15);
+				color: #eb5757;
+				padding: 0.125rem 0.25rem;
+				border-radius: 3px;
+				font-size: 85%;
 			}
 		}
 	}
@@ -935,6 +1069,7 @@ async function onSave2Image() {
 	margin: 0;
 	opacity: 0.9;
 
+	&.notion,
 	&.note,
 	&.classic,
 	&.antiquity,
@@ -952,36 +1087,9 @@ async function onSave2Image() {
 	}
 }
 
-.typography-area,
-.operate-area {
-	width: 40rem;
-
-	.mobile-w-full {
-		width: auto;
-	}
-}
-
 @media (max-width: 960px) {
 	.container {
 		width: 100% !important;
-	}
-
-	#app .typography-area,
-	#app .operate-area {
-		width: 100%;
-
-		.mobile-adjust {
-			padding: 0;
-		}
-
-		.mobile-w-full {
-			width: 100%;
-			margin-left: 0;
-		}
-
-		.mobile-w-full+.mobile-w-full {
-			margin-top: 1rem;
-		}
 	}
 }
 </style>

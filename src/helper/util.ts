@@ -1,6 +1,6 @@
 import { STYLE_STORAGE_KEY, DEFAULT_STYLE_SETTINGS } from './constant'
 
-export const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay || 1000))
+export const sleep = (delay: number) => new Promise((resolve) => setTimeout(resolve, delay || 1000))
 
 const randomString = (length: number) => {
   const str: string = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
@@ -122,7 +122,7 @@ export const generateHash = (str: string) => {
  * @returns 防抖后的函数
  */
 export const debounce = <T extends (...args: any[]) => any>(fn: T, delay: number): (...args: Parameters<T>) => void => {
-  let timer: NodeJS.Timeout | null = null
+  let timer: any = null
   
   return function (this: any, ...args: Parameters<T>) {
     if (timer) clearTimeout(timer)

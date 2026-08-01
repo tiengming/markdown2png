@@ -1,4 +1,3 @@
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
@@ -15,7 +14,7 @@ app.component('SvgIcon', SvgIcon)
 app.use(createPinia())
 app.use(router)
 
-app.config.globalProperties.$reortGaEvent = (action: string, category: string, label: string) => {
+app.config.globalProperties.$reortGaEvent = (action: string, category: string, label?: string) => {
 	const gtag = window.gtag || (() => {})
 	gtag('event', action, {
 		event_category: category,

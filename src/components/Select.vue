@@ -1,6 +1,6 @@
 <template>
   <div class="select-wrapper">
-    <div class="select-value" @click="onFocusToggle">{{ options[activeIndex].name }}</div>
+    <div class="select-value" @click="onFocusToggle">{{ options[activeIndex]?.name }}</div>
     <span :class="`expand-icon ${show ? 'expand' : ''}`">></span>
     <div class="select-options" v-show="show">
       <div v-for="(item, index) in options" :key="item.code" @click="onChange(index, item)">
@@ -11,7 +11,14 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent, type PropType } from 'vue'
+
+interface SelectOption {
+  name: string
+  code: string
+}
+
+export default defineComponent({
   data() {
     return {
       activeIndex: 0,
@@ -28,9 +35,9 @@ export default {
       default: 0
     },
     'options': {
-      type: Array,
+      type: Array as PropType<SelectOption[]>,
       required: true,
-      default: [
+      default: () => [
         { name: '深空灰', code: '1' },
         { name: '气质银', code: '2' },
       ]
@@ -42,7 +49,7 @@ export default {
   },
 
   methods: {
-    onChange(ind: number, item: any) {
+    onChange(ind: number, item: SelectOption) {
       this.show = false
       this.activeIndex = ind
       this.$emit('change', ind)
@@ -52,7 +59,7 @@ export default {
       this.show = !this.show
     }
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>

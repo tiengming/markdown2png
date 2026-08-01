@@ -1,34 +1,19 @@
 <template>
 	<footer class="z-0 my-4 text-center text-gray-400">
-		<div class="flex flex-row flex-wrap items-center justify-center mt-2 mb-2 text-sm friends">
-			<a target="_blank" class="mx-3 text-gray-400 cursor-pointer hover:text-amber-500"
-				:href="assembleExternalLink('https://www.lovejade.cn/')"
-				@click="$reortGaEvent('wechat-jeffjade-com', 'footer')">清风明月轩</a>
-			<a target="_blank" class="mx-3 text-gray-400 cursor-pointer hover:text-amber-500"
-				:href="assembleExternalLink('https://www.niceshare.site/')"
-				@click="$reortGaEvent('wechat-jeffjade-com', 'footer')">逍遥自在轩</a>
-			<a target="_blank" class="mx-3 text-gray-400 cursor-pointer hover:text-amber-500"
-				:href="assembleExternalLink('https://www.jeffjade.com/')"
-				@click="$reortGaEvent('www-jeffjade-com', 'footer')">晚晴幽草轩</a>
-			<a target="_blank" class="mx-3 text-gray-400 cursor-pointer hover:text-amber-500"
-				:href="assembleExternalLink('https://quickapp.lovejade.cn/')"
-				@click="$reortGaEvent('quickapp-lovejade', 'footer')">静轩之别苑</a>
-			<a target="_blank" class="mx-3 text-gray-400 cursor-pointer hover:text-amber-500"
-				:href="assembleExternalLink('https://fine.niceshare.site/')"
-				@click="$reortGaEvent('fine-niceshare-site', 'footer')">缘知随心庭</a>
-			<a target="_blank" class="mx-3 text-gray-400 cursor-pointer hover:text-amber-500"
-				:href="assembleExternalLink('https://forum.lovejade.cn/')"
-				@click="$reortGaEvent('forum-lovejade', 'footer')">悠然宜想亭</a>
+		<div class="flex flex-row flex-wrap items-center justify-center mt-2 mb-2 text-xs friends">
+			<a v-for="friend in SITE_CONFIG.friends" :key="friend.name" target="_blank" class="mx-3 text-gray-400 cursor-pointer hover:text-amber-500 transition-colors"
+				:href="assembleExternalLink(friend.url)"
+				@click="$reortGaEvent(friend.ga, 'footer')">{{ friend.name }}</a>
 		</div>
-		<div class="flex flex-row flex-wrap items-center justify-center w-full text-sm">
-			<span class="mx-3 text-gray-400">{{ copyright }}</span>
-			<span class="px-2.5 py-0.5 text-sm bg-gray-200 rounded-md me-2">{{ version }}</span>
-			<a target="_blank" class="text-gray-400 cursor-pointer hover:text-amber-500"
+		<div class="flex flex-row flex-wrap items-center justify-center w-full text-xs">
+			<span class="mx-3 text-gray-400">{{ SITE_CONFIG.copyright }}</span>
+			<span class="px-2 py-0.5 text-[10px] bg-gray-100 rounded text-gray-500 font-medium me-2">{{ version }}</span>
+			<a target="_blank" class="text-gray-400 cursor-pointer hover:text-amber-500 transition-colors"
 				@click="$reortGaEvent('jeffjade', 'footer')" rel="external noopener"
-				:href="assembleExternalLink('https://www.jeffjade.com')">晚晴幽草轩</a>出品<br class="show-on-mobile" />
-			<a target="_blank" class="mx-3 text-gray-400 cursor-pointer hover:text-amber-500" rel="external noopener"
+				:href="assembleExternalLink(SITE_CONFIG.author.link)">{{ SITE_CONFIG.title }}</a>出品<br class="show-on-mobile" />
+			<a target="_blank" class="mx-3 text-gray-400 cursor-pointer hover:text-amber-500 transition-colors" rel="external noopener"
 				@click="$reortGaEvent('beian', 'footer')"
-				:href="assembleExternalLink('https://beian.miit.gov.cn/')">粤ICP备17099767号</a>
+				:href="SITE_CONFIG.icpLink">{{ SITE_CONFIG.icp }}</a>
 			<img class="zero" src="./../assets/images/zero.gif" alt="深圳市市场监督管理局企业主体身份公示" width="18" height="24"
 				loading="lazy" decoding="async" />
 		</div>
@@ -36,9 +21,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { SITE_CONFIG } from '../../src/helper/config'
 import { version } from '../../package.json'
-const copyright = ref(`Copyright © ${new Date().getFullYear()}`)
 
 const assembleExternalLink = (url: string) => {
 	return `${url}?ref=share.lovejade.cn`
