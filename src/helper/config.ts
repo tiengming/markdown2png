@@ -2,7 +2,7 @@ export const SITE_CONFIG = {
   title: '墨韵飞鸢',
   slogan: '用指尖纸鸢，绘纸上墨韵 | 专业的文本转图片工具',
   logo: 'https://pick.buxiantang.top/rest/plane-solid-full.svg',
-  domain: 'https://share.lovejade.cn',
+  domain: 'https://md2png.buxiantang.top',
   author: {
     name: 'tiengming',
     link: 'https://blog.buxiantang.top/',
@@ -20,7 +20,7 @@ export const SITE_CONFIG = {
   meta: {
     home: {
       title: '墨韵飞鸢 - 一键将文本转换为精美图片 | Markdown 转图片工具',
-      description: '墨韵飞鸢，专业的文本转图片工具。一键将 Markdown 转换为精美图片，支持书摘模式、自定义主题、字体和背景。所有数据本地处理保障隐私安全。',
+      description: '墨韵飞鸢，专业的文本转图片与精美卡片分享工具。一键将 Markdown 转换为精美图片，支持书摘模式、自定义主题、字体和背景。所有数据本地处理保障隐私安全。',
       keywords: '墨韵飞鸢,Markdown转图片,文本转图片工具,书摘生成器,文字转长图'
     },
     digest: {

@@ -83,6 +83,7 @@ type DigestTextSegment = {
   text: string
   bold?: boolean
   underline?: boolean
+  bold_underline?: boolean
   mark?: boolean
   strikethrough?: boolean
 }
@@ -124,7 +125,7 @@ watch(
   }
 )
 
-onMounted(async () => {
+onMounted(() => {
   if (!canvasRef.value) {
     console.error('Canvas 元素未找到')
     toastStore.error('页面初始化失败，请刷新重试')
@@ -535,7 +536,7 @@ const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D
     ctx.closePath()
     ctx.fill()
 
-    // —— 第 3 层：高频纹理条纹，模拟笔刷毛与纸面摩擦留下的丝丝痕迹 ——
+    // —— 第 3 层：高频纹理条纹，模拟笔刷毛与纸面摩擦留留下来的丝丝痕迹 ——
     // 浅亮黄条纹，避免琥珀色压暗整体
     ctx.globalAlpha = 0.14
     ctx.fillStyle = 'rgba(255, 255, 140, 1)'
@@ -893,9 +894,9 @@ const handleImageLoad = () => { }
 </script>
 
 <template>
-  <div class="w-[80rem] md:w-full flex md:flex-col items-start justify-between p-6 md:p-0">
+  <div class="w-full max-w-6xl flex md:flex-col items-start justify-between p-6 md:p-0 gap-6">
 
-    <div class="relative w-3/5 mb-4 mr-8 bg-transparent md:w-full">
+    <div class="relative flex-1 w-full bg-transparent">
       <!-- Skeleton loading -->
       <div v-if="isLoading" class="absolute top-0 w-full aspect-[500/660] rounded-xl overflow-hidden bg-gray-50">
         <!-- 主体骨架 -->
@@ -922,7 +923,7 @@ const handleImageLoad = () => { }
       <DigestHistory />
     </div>
 
-    <div class="w-2/5 md:w-full">
+    <div class="w-[380px] md:w-full shrink-0">
       <!-- 文字样式设置 -->
       <div class="w-full px-6 py-6 mx-auto space-y-6 bg-white shadow-lg rounded-xl">
         <div class="flex flex-row items-center justify-between">
@@ -1017,7 +1018,7 @@ const handleImageLoad = () => { }
           <!-- 文字颜色 -->
           <div>
             <label class="block mb-2 text-sm font-medium text-gray-400">文字颜色</label>
-            <input type="color" v-model="textColor" class="w-full h-10 border border-gray-200 rounded-lg" />
+            <input type="color" v-model="textColor" class="w-full h-10 border border-gray-200 rounded-lg bg-white" />
           </div>
         </div>
       </div>
@@ -1040,7 +1041,7 @@ const handleImageLoad = () => { }
           <input type="file" accept="image/*" class="absolute inset-0 z-10 w-full h-full opacity-0 cursor-pointer"
             @change="handleImageUpload" />
           <div
-            class="flex flex-col items-center justify-center w-full h-full border border-gray-300 border-dashed rounded-lg">
+            class="flex flex-col items-center justify-center w-full h-full border border-gray-300 border-dashed rounded-lg bg-white">
             <div class="flex flex-col items-center justify-center p-2 text-gray-500">
               <div class="flex items-center text-xs text-center text-gray-400">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-1 text-gray-400" fill="none"

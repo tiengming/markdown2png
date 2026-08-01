@@ -112,7 +112,7 @@ export const SIZES_ARR = [
 	},
 ]
 
-export const DEFAULT_TEXT = `[墨韵飞鸢](https://blog.buxiantang.top/)  Kite，专业的文本转图片工具。一键将 Markdown 转换为精美图片，支持书摘模式、自定义主题、字体 and 背景。由 **tiengming** 在开源项目「玉桃文飨轩」基础上二次开发，增加了 Notion 极简主题、Notion 工作区双栏布局、数据库属性式控制面板、自定义水印内容等多项全新特性。所有数据均在浏览器本地处理，完全保障您的隐私安全。
+export const DEFAULT_TEXT = `[墨韵飞鸢](https://md2png.buxiantang.top/) 🪁，专业的文本转图片工具。一键将 Markdown 转换为精美图片，支持书摘模式、自定义主题、字体 and 背景。由 **tiengming** 在开源项目「玉桃文飨轩」基础上二次开发，增加了 Notion 极简主题、Notion 工作区双栏布局、数据库属性式控制面板、自定义水印内容等多项全新特性。所有数据均在浏览器本地处理，完全保障您的隐私安全。
 
 ## 如何使用？
 

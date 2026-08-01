@@ -6,7 +6,6 @@ import { useToastStore } from './../stores/toast'
 import Switch from './../components/Switch.vue'
 import Spinner from './../components/Spinner.vue'
 import HeadlessSelect from './../components/HeadlessSelect.vue'
-import Recommand from './../components/Recommand.vue'
 import { useContentStore } from './../stores/content'
 import { download2png, getCurrentDate } from './../helper/util'
 import { ensureFontLoaded } from './../helper/fonts'
@@ -61,10 +60,12 @@ function loadSnapdom() {
 	return snapdomModulePromise
 }
 
-// snapdom options
+// snapdom options - Upgraded to Retina Dpr and 2x Scale for outstanding image quality!
 const snapdomOptions = {
 	backgroundColor: '#ffffff',
 	quality: 1,
+	dpr: 2, // High DPI pixel density
+	scale: 2, // 2x output scale multiplier
 	type: 'png' as const,
 	filter: (node: HTMLElement) => {
 		return !node.classList?.contains('exclude-from-image')
@@ -549,8 +550,6 @@ async function onSave2Image() {
 			</button>
 		</div>
 	</div>
-
-	<Recommand />
 </template>
 
 <style lang="scss" scoped>
@@ -596,7 +595,7 @@ async function onSave2Image() {
 		.editor {
 			color: #37352f;
 			background-color: transparent;
-			font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+			font-family: var(--markdown-font-family, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol") !important;
 			
 			:deep(h1) {
 				font-size: 1.875rem;

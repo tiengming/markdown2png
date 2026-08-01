@@ -1,5 +1,5 @@
 export default `
-[墨韵飞鸢🪁](https://blog.buxiantang.top/)，是一款专业的文本转图片与精美卡片分享工具。项目由 **tiengming** 进行二次开发与深度定制，复刻并致敬了优秀的开源项目 [markdown2png](https://github.com/nicejade/markdown2png)。在保留原作优秀排版特性的基础上，我们移除了原上游繁杂的商业推广，重塑了极具质感的设计，并带来多项专为创作者、阅读爱好者量身定制的现代化功能。
+[墨韵飞鸢🪁](https://md2png.buxiantang.top/)，是一款专业的文本转图片与精美卡片分享工具。项目由 **tiengming** 进行二次开发与深度定制，复刻并致敬了优秀的开源项目 [markdown2png](https://github.com/nicejade/markdown2png)。在保留原作优秀排版特性的基础上，我们移除了原上游繁杂的商业推广，重塑了极具质感的设计，并带来多项专为创作者、阅读爱好者量身定制的现代化功能。
 
 ![墨韵飞鸢 | 二次开发全新界面](https://pick.buxiantang.top/rest/plane-solid-full.svg)
 
@@ -15,7 +15,7 @@ export default `
 
 ## 适用场景
 
-如果您有一段精彩段落、读书笔记或 **Markdown** 文本，想将其转化为高画质、具有排版美感的卡片图片，以便优雅地分享至微信朋友圈、微博、小红书、博客等社交媒体，[墨韵飞鸢](https://blog.buxiantang.top/) 将是您的绝佳伴侣。
+如果您有一段精彩段落、读书笔记或 **Markdown** 文本，想将其转化为高画质、具有排版美感的卡片图片，以便优雅地分享至微信朋友圈、微博、小红书、博客等社交媒体，[墨韵飞鸢](https://md2png.buxiantang.top/) 将是您的绝佳伴侣。
 
 ## 关于开源与二次开发版权
 
