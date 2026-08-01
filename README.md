@@ -1,96 +1,82 @@
 <div align="center">
-  <a href="https://share.lovejade.cn/?utm_source=github.com&pid=share"><img src="https://raw.githubusercontent.com/nicejade/markdown2png/master/src/assets/images/logo.png" width="180" alt="玉桃文飨轩"></a>
+  <a href="https://md2png.buxiantang.top/?utm_source=github.com&pid=share"><img src="https://pick.buxiantang.top/rest/plane-solid-full.svg" width="120" alt="墨韵飞鸢"></a>
 </div>
 
-<h1 align="center">玉桃文飨轩</h1>
+<h1 align="center">墨韵飞鸢 🪁</h1>
 
 <div align="center">
-  <strong><a target="_blank" href="https://share.lovejade.cn/?utm_source=github.com&pid=share">玉桃文飨轩🍑 </a>，专业的文本转图片工具。一键将 Markdown 转换为精美图片，支持书摘模式、自定义主题、字体和背景。所有数据本地处理保障隐私安全，完美适配多端展示。让文章分享、读书笔记、社交传播更有格调。
-  </strong>基于 <a target="_blank" href="https://site.lovejade.cn/post/5b1a221c0526c920d6dfaada">Vue3</a>、<a href="https://site.lovejade.cn/post/6010e1b10c71de1fb957b64e">Vite</a>、<a target="_blank" href="https://site.lovejade.cn/post/631813c3c0922e0e572bde81">Pinia</a>、<a target="_blank" href="https://site.lovejade.cn/post/5fd20cb4c06d6302c1907ec7">TailwindCSS</a>、<a target="_blank" href="https://site.lovejade.cn/post/6278fdeaac00ce3f9b11a8ef">TypeScript</a> 等技术栈构建。
+  <strong><a target="_blank" href="https://md2png.buxiantang.top/?utm_source=github.com&pid=share">墨韵飞鸢 🪁</a>，用指尖纸鸢，绘纸上墨韵。专业的文本转图片与精美卡片生成工具。
+  </strong>基于 <a target="_blank" href="https://vuejs.org/">Vue3</a>、<a href="https://vite.dev/">Vite</a>、<a target="_blank" href="https://pinia.vuejs.org/">Pinia</a>、<a target="_blank" href="https://tailwindcss.com/">TailwindCSS</a>、<a target="_blank" href="https://www.typescriptlang.org/">TypeScript</a> 等现代化前端技术栈构建。
 </div>
 
 <br />
 
 <div align="center">
   <a href="https://nodejs.org/en/">
-    <img src="https://img.shields.io/badge/node->=16.0.0-green.svg" alt="Node Version">
+    <img src="https://img.shields.io/badge/node->=18.0.0-green.svg" alt="Node Version">
   </a>
-  <a href="https://github.com/nicejade/markdown2png">
-    <img src="https://img.shields.io/github/package-json/v/nicejade/markdown2png" alt="LICENSE">
+  <a href="https://github.com/tiengming/markdown2png">
+    <img src="https://img.shields.io/github/package-json/v/tiengming/markdown2png" alt="Version">
   </a>
-  <a href="https://github.com/nicejade/wealth-tracker">
-    <img src="https://img.shields.io/github/license/nicejade/markdown2png" alt="LICENSE">
+  <a href="https://github.com/tiengming/markdown2png">
+    <img src="https://img.shields.io/github/license/tiengming/markdown2png" alt="LICENSE">
   </a>
   <a href="https://prettier.io/">
     <img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat" alt="Prettier">
   </a>
   <a href="https://gitmoji.dev">
-  <img
-    src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square"
-    alt="Gitmoji"
-  />
-</a>
-  <a href="https://www.niceshare.site/">
-    <img src="https://img.shields.io/badge/Author-nicejade-%23a696c8.svg" alt="Author nicejade">
+    <img src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square" alt="Gitmoji" />
   </a>
 </div>
 
-## 如何访问
+## 🌐 访问地址
 
-- 在线访问地址：[https://share.lovejade.cn/](https://share.lovejade.cn/ '玉桃文飨轩')。
-- `书摘模式`地址：[https://share.lovejade.cn/digest](https://share.lovejade.cn/digest '书摘模式')。
+- **在线访问**：[https://md2png.buxiantang.top/](https://md2png.buxiantang.top/ '墨韵飞鸢')
+- **书摘模式**：[https://md2png.buxiantang.top/digest](https://md2png.buxiantang.top/digest '书摘模式')
 
-## 核心功能
+## ✨ 核心特色与功能
 
-- ✨ 一键将文本内容转换为高清图片，支持 Markdown 语法渲染；
-- 📅 支持添加日期水印，让分享内容更专业、更有时效性；
-- 🔒 所有数据本地处理，无需上传服务器，确保内容安全与隐私；
-- 🎨 内置多款精美主题与字体，支持自由切换，让内容展示更有格调；
-- 📱 灵活调整输出尺寸，完美适配手机、平板、电脑等多种设备；
-- 💫 支持自定义背景、字体、颜色等，打造专属于您的分享样式；
-- 📚 特色功能：[真实感书摘模式](https://share.lovejade.cn/digest)，让读书笔记分享更有质感；
-- ⚡️ 一键复制图片至剪切板或下载图片，即时分享到各大社交平台；
+- **🎨 全新 Notion 风格工作区**：
+  采用桌面分栏（Split Workspace）式的 Notion 视觉排版，左侧提供可收纳的交互式侧边栏（Sidebar），右侧作为大画布工作区。在移动端支持弹性抽屉（Off-Canvas Drawer）导航。
+- **🚀 零卡顿编辑与渲染**：
+  对选项切换和文本输入渲染流水线进行了深度解耦，不再在参数改动时同步阻塞触发快照预生成。仅在点击复制或保存时生成，极大地优化了配置面板的切换速度和操作流畅度。
+- **📸 2x 视网膜高清导出 (Retina Display)**：
+  升级底层 SnapDOM 快照机制，强制使用 2 倍 Device Pixel Ratio (Scale: 2) 导出超清晰的图片卡片，绝无边缘模糊或排版错位。
+- **🏷️ 自定义品牌水印前缀**：
+  提供可实时自定义的品牌前缀输入框（如 `[我的品牌] via tiengming`），支持个人与机构进行专属内容传播时的版权保护。
+- **📖 真实质感书摘模式**：
+  [特色书摘生成器](https://md2png.buxiantang.top/digest)全新重构，为预览画布增加了拟真优雅的多彩圆点窗口框架 and 交互动画，支持拖拽和自选各种极富质感的渐变背景，让读书笔记分享极具高级感。
+- **🔒 本地离线运行，保障隐私**：
+  所有 Markdown 渲染及图片渲染均在用户浏览器中进行，无需任何服务端 API 或图片上传，彻底杜绝数据泄露。
 
-## 本地开发
+## 🛠️ 本地开发指南
 
 ```bash
-# 安装依赖
+# 1. 安装依赖
 pnpm install
 
-# 启动开发服务器
+# 2. 启动本地开发服务器
 pnpm dev
-# or
-pnpm start
 
-# 类型检查
+# 3. 执行 TypeScript 类型检查
 pnpm type-check
 
-# 构建生产版本（包含 sitemap 生成）
+# 4. 构建生产环境发布包
 pnpm build
 
-# 预览构建结果
+# 5. 本地预览构建产物
 pnpm preview
 ```
 
-## 相关链接
+## 🔗 友情链接
 
-- [清风明月轩](https://www.lovejade.cn//?ref=github.com)
-- [逍遥自在轩](https://niceshare.site/?ref=github.com)
-- [晚晴幽草轩](https://www.jeffjade.com/nicelinks?ref=github.com)
-- [缘知随心庭](https://fine.niceshare.site/?ref=github.com)
-- [静轩之别苑](https://quickapp.lovejade.cn/?ref=github.com)
-- [悠然宜想亭](https://forum.lovejade.cn//?ref=github.com)
-- [静晴轩别苑](https://nice.lovejade.cn/?ref=github.com)
-- [SegmentFault](https://segmentfault.com/u/jeffjade)
-- [X（Twitter）](https://x.com/MarshalXuan)
-- [Facebook](https://www.facebook.com/nice.jade.yang)
+- [MD2View](https://md2view.buxiantang.top/?ref=md2png.buxiantang.top)
+- [Markdown 编辑器](https://markdown.buxiantang.top/?ref=md2png.buxiantang.top)
+- [tiengming 博客](https://blog.buxiantang.top/?ref=md2png.buxiantang.top)
+- [X (Twitter)](https://x.com/intent/user?screen_name=MarshalXuan)
 
-## Star History
+## 📄 开源许可证
 
-[![Star History Chart](https://api.star-history.com/svg?repos=nicejade/markdown2png&type=date&legend=top-left)](https://www.star-history.com/#nicejade/markdown2png&type=date&legend=top-left)
+本项目基于 [MIT](http://opensource.org/licenses/MIT) 许可证开源。
 
-## 许可执照
-
-[MIT](http://opensource.org/licenses/MIT)
-
-Copyright (c) 2022-present, [逍遥自在轩](https://www.niceshare.site/)
+Copyright (c) 2022-present, [tiengming](https://blog.buxiantang.top/)

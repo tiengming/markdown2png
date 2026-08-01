@@ -68,7 +68,7 @@
 							v-for="friend in SITE_CONFIG.friends" 
 							:key="friend.name" 
 							target="_blank" 
-							:href="`${friend.url}?ref=share.lovejade.cn`"
+							:href="`${friend.url}?ref=md2png.buxiantang.top`"
 							class="flex items-center px-2 py-1 text-xs text-gray-600 rounded-md hover:bg-gray-200/30 hover:text-gray-900 transition-colors"
 						>
 							<span class="mr-2 text-[10px]">🔗</span>
@@ -164,7 +164,7 @@
 									v-for="friend in SITE_CONFIG.friends" 
 									:key="friend.name" 
 									target="_blank" 
-									:href="`${friend.url}?ref=share.lovejade.cn`"
+									:href="`${friend.url}?ref=md2png.buxiantang.top`"
 									class="flex items-center px-2 py-1 text-xs text-gray-600 rounded-md hover:bg-gray-200/30 hover:text-gray-900 transition-colors"
 								>
 									<span class="mr-2 text-[10px]">🔗</span>

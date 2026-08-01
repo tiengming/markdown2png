@@ -896,30 +896,52 @@ const handleImageLoad = () => { }
 <template>
   <div class="w-full max-w-6xl flex md:flex-col items-start justify-between p-6 md:p-0 gap-6">
 
-    <div class="relative flex-1 w-full bg-transparent">
-      <!-- Skeleton loading -->
-      <div v-if="isLoading" class="absolute top-0 w-full aspect-[500/660] rounded-xl overflow-hidden bg-gray-50">
-        <!-- 主体骨架 -->
-        <div class="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-100"></div>
-        <!-- 文字区域骨架 -->
-        <div class="absolute inset-0 flex flex-col items-center justify-center p-8 space-y-4">
-          <div class="w-1/2 h-4 bg-gray-300 rounded animate-pulse"></div>
-          <div class="w-2/3 h-4 bg-gray-300 rounded animate-pulse"></div>
-          <div class="w-2/3 h-4 bg-gray-300 rounded animate-pulse"></div>
-          <div class="w-3/4 h-4 bg-gray-300 rounded animate-pulse"></div>
-          <div class="w-2/3 h-4 bg-gray-300 rounded animate-pulse"></div>
-          <div class="w-1/2 h-4 bg-gray-300 rounded animate-pulse"></div>
+    <div class="relative flex-1 w-full bg-[#f7f7f5]/40 border border-gray-200/80 rounded-xl p-4 shadow-sm hover:shadow transition-all duration-300">
+      <!-- Top header bar for Notion / Window decoration -->
+      <div class="flex items-center justify-between pb-3 mb-3 border-b border-gray-100/80 select-none">
+        <div class="flex items-center space-x-1.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-red-400/80"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-yellow-400/80"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-green-400/80"></span>
         </div>
-        <!-- 闪光效果 -->
-        <div class="absolute inset-0">
-          <div class="absolute inset-0 bg-gradient-to-r from-transparent to-transparent via-white/20 animate-shimmer">
+        <div class="text-[11px] font-semibold text-gray-500 flex items-center space-x-1.5">
+          <span>🪁</span>
+          <span>墨韵飞鸢 · 书摘预览画布</span>
+        </div>
+        <div class="w-12"></div> <!-- Spacer for balance -->
+      </div>
+
+      <div class="relative overflow-hidden rounded-lg">
+        <!-- Skeleton loading -->
+        <div v-if="isLoading" class="absolute top-0 w-full aspect-[500/660] rounded-lg overflow-hidden bg-gray-50 z-10">
+          <!-- 主体骨架 -->
+          <div class="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-100"></div>
+          <!-- 文字区域骨架 -->
+          <div class="absolute inset-0 flex flex-col items-center justify-center p-8 space-y-4">
+            <div class="w-1/2 h-4 bg-gray-300 rounded animate-pulse"></div>
+            <div class="w-2/3 h-4 bg-gray-300 rounded animate-pulse"></div>
+            <div class="w-2/3 h-4 bg-gray-300 rounded animate-pulse"></div>
+            <div class="w-3/4 h-4 bg-gray-300 rounded animate-pulse"></div>
+            <div class="w-2/3 h-4 bg-gray-300 rounded animate-pulse"></div>
+            <div class="w-1/2 h-4 bg-gray-300 rounded animate-pulse"></div>
+          </div>
+          <!-- 闪光效果 -->
+          <div class="absolute inset-0">
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent to-transparent via-white/20 animate-shimmer">
+            </div>
           </div>
         </div>
+        <!-- Canvas content -->
+        <canvas id="digest" ref="canvasRef" :width="canvasWidth" :height="canvasHeight"
+          :style="{ borderRadius: `${roundedRadius}px` }" class="w-full border border-gray-100 bg-white shadow-inner">
+        </canvas>
       </div>
-      <!-- Canvas content -->
-      <canvas id="digest" ref="canvasRef" :width="canvasWidth" :height="canvasHeight"
-        :style="{ borderRadius: `${roundedRadius}px` }" class="w-full border">
-      </canvas>
+
+      <!-- Footer action hints -->
+      <div class="mt-3 text-center text-[10px] text-gray-400/85 font-medium select-none">
+        💡 提示：支持实时拖拽/选择自定义背景，一键导出高清 Retina 墨韵长图
+      </div>
+
       <DigestHistory />
     </div>
 

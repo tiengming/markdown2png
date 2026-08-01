@@ -25,7 +25,7 @@ import { SITE_CONFIG } from '../../src/helper/config'
 import { version } from '../../package.json'
 
 const assembleExternalLink = (url: string) => {
-	return `${url}?ref=share.lovejade.cn`
+	return `${url}?ref=md2png.buxiantang.top`
 }
 </script>
 
