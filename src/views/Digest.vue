@@ -318,21 +318,20 @@ const parseMarkdown = (text: string) => {
   return segments
 }
 
-const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D, backgroundImage: HTMLImageElement | null) => {
-  context.clearRect(0, 0, canvas.width, canvas.height)
-  // 绘制背景
-  if (backgroundImage) {
-    context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height)
-  } else {
-    // 使用默认灰色背景
-    context.fillStyle = '#e5e7eb'
-    context.fillRect(0, 0, canvas.width, canvas.height)
-  }
 
-  // 文本换行处理函数 - 基于单词换行，保持英文单词完整
+// 计算所有文本行及样式
+const computeAllLines = (
+  text: string,
+  width: number,
+  edgePaddingVal: number,
+  fontWeightVal: string,
+  fontSizeVal: number,
+  fontFamilyVal: string,
+  context: CanvasRenderingContext2D
+): DigestTextSegment[][] => {
   const wrapTextSegments = (segments: DigestTextSegment[]) => {
     const lines: DigestTextSegment[][] = []
-    const maxWidth = canvas.width - (edgePadding.value * 2)
+    const maxWidth = width - (edgePaddingVal * 2)
 
     // Split segments into wrapping units: CJK chars individually, whitespace groups, Latin words as groups
     const wordSegments: Array<{ word: string } & Omit<DigestTextSegment, 'text'>> = []
@@ -372,7 +371,7 @@ const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D
 
     if (wordSegments.length === 0) return lines
 
-    const font = `${fontWeight.value} ${fontSize.value}px ${fontFamily.value}`
+    const font = `${fontWeightVal} ${fontSizeVal}px ${fontFamilyVal}`
     context.font = font
 
     // 逐行布局
@@ -405,7 +404,7 @@ const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D
         currentStyle.mark !== style.mark ||
         currentStyle.strikethrough !== style.strikethrough
 
-      const wordFont = style.bold ? `bold ${fontSize.value}px ${fontFamily.value}` : font
+      const wordFont = style.bold ? `bold ${fontSizeVal}px ${fontFamilyVal}` : font
       context.font = wordFont
       const wordWidth = context.measureText(word).width
 
@@ -439,6 +438,37 @@ const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D
     }
 
     return lines
+  }
+
+  const paragraphs = text.split('\n')
+  const allLines: DigestTextSegment[][] = []
+  paragraphs.forEach((para: string) => {
+    if (para.trim()) {
+      const segments = parseMarkdown(para)
+      allLines.push(...wrapTextSegments(segments))
+    } else {
+      // 空行
+      allLines.push([])
+    }
+  })
+
+  return allLines
+}
+
+const drawCanvas = (
+  canvas: HTMLCanvasElement,
+  context: CanvasRenderingContext2D,
+  backgroundImage: HTMLImageElement | null,
+  precomputedLines?: DigestTextSegment[][]
+) => {
+  context.clearRect(0, 0, canvas.width, canvas.height)
+  // 绘制背景
+  if (backgroundImage) {
+    context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height)
+  } else {
+    // 使用默认灰色背景
+    context.fillStyle = '#e5e7eb'
+    context.fillRect(0, 0, canvas.width, canvas.height)
   }
 
   // 荧光笔/笔刷质感的高亮绘制（用于 ==text==）
@@ -561,17 +591,15 @@ const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D
   }
 
   // 处理每一段文本
-  const paragraphs = digest.value.split('\n')
-  const allLines: DigestTextSegment[][] = []
-  paragraphs.forEach((para: string) => {
-    if (para.trim()) {
-      const segments = parseMarkdown(para)
-      allLines.push(...wrapTextSegments(segments))
-    } else {
-      // 空行
-      allLines.push([])
-    }
-  })
+  const allLines = precomputedLines || computeAllLines(
+    digest.value,
+    canvas.width,
+    edgePadding.value,
+    fontWeight.value,
+    fontSize.value,
+    fontFamily.value,
+    context
+  )
 
   // 计算行高和总高度
   const lineHeightPx = fontSize.value * lineHeight.value
@@ -666,6 +694,7 @@ const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D
   })
 }
 
+
 const loadBackgroundImage = async () => {
   if (!isCanvasReady) return
 
@@ -687,15 +716,6 @@ const loadBackgroundImage = async () => {
       return
     }
 
-    const renderSurface = document.createElement('canvas')
-    renderSurface.width = canvasWidth.value
-    renderSurface.height = canvasHeight.value
-
-    const renderContext = renderSurface.getContext('2d')
-    if (!renderContext) {
-      throw new Error('无法创建离屏 Canvas 上下文')
-    }
-
     const backgroundSrc = getSelectedBackgroundSrc()
 
     const [backgroundImage] = await Promise.all([
@@ -707,12 +727,71 @@ const loadBackgroundImage = async () => {
       return
     }
 
-    drawCanvas(renderSurface, renderContext, backgroundImage)
+    // 1. Get preset dimensions based on selected ratio
+    const selectedRatioObj = ratios.find(r => r.id === selectedRatio.value) || ratios[0]
+    const presetWidth = selectedRatioObj.width
+    const presetHeight = selectedRatioObj.height
+
+    // 2. Measure text with temporary canvas to calculate needed height
+    const tempSurface = document.createElement('canvas')
+    tempSurface.width = presetWidth
+    tempSurface.height = presetHeight
+    const tempContext = tempSurface.getContext('2d')
+    if (!tempContext) {
+      throw new Error('无法创建临时 Canvas 上下文')
+    }
+
+    const allLines = computeAllLines(
+      digest.value,
+      presetWidth,
+      edgePadding.value,
+      fontWeight.value,
+      fontSize.value,
+      fontFamily.value,
+      tempContext
+    )
+
+    const lineHeightPx = fontSize.value * lineHeight.value
+    const totalHeight = allLines.length * lineHeightPx
+    const requiredHeight = totalHeight + edgePadding.value * 2
+    const finalHeight = Math.max(presetHeight, requiredHeight)
+
+    // 3. Update reactive variables if needed, and wait for next render cycle
+    let sizeChanged = false
+    if (canvasWidth.value !== presetWidth) {
+      canvasWidth.value = presetWidth
+      sizeChanged = true
+    }
+    if (canvasHeight.value !== finalHeight) {
+      canvasHeight.value = finalHeight
+      sizeChanged = true
+    }
+
+    if (sizeChanged) {
+      await nextTick()
+      if (token !== loadToken) {
+        return
+      }
+    }
+
+    // 4. Create actual render surface with computed dimensions
+    const renderSurface = document.createElement('canvas')
+    renderSurface.width = canvasWidth.value
+    renderSurface.height = canvasHeight.value
+
+    const renderContext = renderSurface.getContext('2d')
+    if (!renderContext) {
+      throw new Error('无法创建离屏 Canvas 上下文')
+    }
+
+    // 5. Draw onto the render surface passing precomputedLines
+    drawCanvas(renderSurface, renderContext, backgroundImage, allLines)
 
     if (token !== loadToken) {
       return
     }
 
+    // 6. Ensure the onscreen canvas has correct dimensions in DOM
     if (canvas.width !== renderSurface.width) {
       canvas.width = renderSurface.width
     }
@@ -736,6 +815,7 @@ const loadBackgroundImage = async () => {
     }
   }
 }
+
 
 function onCopyImage() {
   // 检测是否为 iOS 或 Safari, iOS/Safari 环境下使用替代方案

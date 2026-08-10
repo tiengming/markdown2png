@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2026-08-10
+- Fixed a bug on the Digest page where long book excerpts/reading notes exceeded the fixed-height canvas container and resulted in cut-off or incomplete text at the bottom.
+- Dynamically calculate the required height to fit all lines of text and padding, and auto-expand the canvas height if the content exceeds the selected ratio's preset height.
+
 ## 2026-07-12
 - Rebranded the platform to **墨韵飞鸢🪁** (MoYun FeiYuan / Ink Charm Flying Kite), reflecting the new paper-plane logo asset.
 - Replaced the branding across the entire site including index.html, routing, Header, FooterNav, and meta tags.
