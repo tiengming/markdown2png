@@ -67,6 +67,8 @@ const snapdomOptions = {
 	dpr: 2, // High DPI pixel density
 	scale: 2, // 2x output scale multiplier
 	type: 'png' as const,
+	embedFonts: true,
+	reconcile: true,
 	filter: (node: HTMLElement) => {
 		return !node.classList?.contains('exclude-from-image')
 	},
@@ -131,15 +133,7 @@ function updatePreview() {
 	const watermarkDomNode = document.getElementById('home-watermark')
 	if (watermarkDomNode) watermarkDomNode.remove()
 
-	const notionHeaderNode = document.getElementById('notion-header')
-	if (notionHeaderNode) notionHeaderNode.remove()
-
 	if (!editor.value.innerHTML) return
-
-	if (currentTheme.value === 'notion') {
-		const headerHtml = `<div id='notion-header' style='font-size: 4rem; margin-bottom: 1.5rem; text-align: left; line-height: 1;' class='exclude-from-image select-none'>🍑</div>`
-		editor.value.innerHTML = headerHtml + editor.value.innerHTML
-	}
 
 	if (contentStore.isWithDate) {
 		const dateHtml = `<p id='date-time' style='text-align: right;'><time>${getCurrentDate()}</time></p>`
@@ -404,6 +398,10 @@ async function onSave2Image() {
 		<div id="container" class="container" style="text-autospace: normal;" :style="containerStyle">
 			<div :class="`${currentThemeObj.id}-box warpper`">
 				<div class="content" :class="currentThemeObj.id">
+					<!-- Notion Header Page Icon Emoji (outside editor to prevent contamination) -->
+					<div v-if="currentTheme === 'notion'" id="notion-header" style="font-size: 4rem; margin-bottom: 1.5rem; text-align: left; line-height: 1;" class="select-none">
+						🍑
+					</div>
 					<div id="editor" ref="editor" @blur="onEditorBlur" @focus="onEditorFocus"
 						:class="['editor', 'markdown', { 'markdown--justify': textAlign === 'justify' }]"
 						contenteditable="true">
@@ -565,7 +563,8 @@ async function onSave2Image() {
 	.content {
 		position: relative;
 		width: 100%;
-		height: 100%;
+		height: auto;
+		min-height: 100%;
 		flex: 1 1 0%;
 
 		.editor {
