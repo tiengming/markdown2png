@@ -398,10 +398,6 @@ async function onSave2Image() {
 		<div id="container" class="container" style="text-autospace: normal;" :style="containerStyle">
 			<div :class="`${currentThemeObj.id}-box warpper`">
 				<div class="content" :class="currentThemeObj.id">
-					<!-- Notion Header Page Icon Emoji (outside editor to prevent contamination) -->
-					<div v-if="currentTheme === 'notion'" id="notion-header" style="font-size: 4rem; margin-bottom: 1.5rem; text-align: left; line-height: 1;" class="select-none">
-						🍑
-					</div>
 					<div id="editor" ref="editor" @blur="onEditorBlur" @focus="onEditorFocus"
 						:class="['editor', 'markdown', { 'markdown--justify': textAlign === 'justify' }]"
 						contenteditable="true">
